@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/fragmentforms :: headforms}"></head>
+
+<body>
+
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a th:href="@{/home}" class="logo d-flex align-items-center">
+            <img th:src="@{/img/logo.png}" alt="Logo Mon Etab">
+            <span class="d-none d-lg-block">  Mon Etab</span>
+        </a>
+        <i class="toggle-sidebar-btn"><span class="material-icons">menu</span></i>
+    </div>
+
+    <a class="nav-link nav-profile d-flex align-items-center pe-0" >
+        <span class="d-none d-md-block ps-2">ANGE DIBI</span>
+    </a>
+
+    <div class="toggle-container">
+        <input type="checkbox" id="toggle-switch" class="toggle-switch">
+        <label for="toggle-switch" class="toggle-label">
+            <span class="toggle-icon sun">☀️</span>
+            <span class="toggle-icon moon">🌙</span>
+        </label>
+    </div>
+
+</header>
+
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{/home}">
+                <span class="material-icons">dashboard</span>
+                <span>Tableau de bord </span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a  class="nav-link collapsed" th:href="@{/students}">
+                <i class="fas fa-user-graduate "></i>
+                <span>Elèves</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{/teachers}">
+                <i class="fas fa-chalkboard-teacher"></i><span>Professeurs</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link ">
+                <i class="fas fa-users"></i><span>Utilisateurs</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{/reports}">
+                <i class="fas fa-file-alt"></i><span>Rapports</span>
+            </a>
+        </li>
+
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+        <li class="nav-item">
+            <div class="logout">
+                <a class="nav-link " th:href="@{/}">
+                    <span class="material-icons">logout</span>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </li>
+    </ul>
+</aside>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1 th:text="${user.id == null}?'Ajouter un utilisateur':'Modifier utilisateur'"></h1>
+    </div>
+
+    <div class="pagetitle">
+        <nav>
+            <ol class="breadcrumb">
+
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/home}"><i class="bi bi-house-door"></i></a></li>
+                        <li class="breadcrumb-item"><a th:href="@{/users}">Utilisateurs</a></li>
+                        <li class="breadcrumb-item active" th:text="${user.id == null}?'Ajout':'Modification'"></li>
+                    </ol>
+                </nav>
+
+            </ol>
+        </nav>
+    </div>
+
+    <div class="containertable">
+
+        <main>
+
+            <button  class="boutonajout"><span> <a th:href="@{/users}" >< Retour</a></span>
+            </button>
+
+            <form th:object="${user}" th:action="@{/users}" method="post">
+
+                <input th:field="*{id}" hidden type="text">
+
+                <label for="pseudo">Pseudo :</label>
+                <input th:field="*{pseudo}" type="text" id="pseudo" name="pseudo">
+
+                <label for="password">Mot de passe :</label>
+                <input th:field="*{password}" type="password" id="password" name="password">
+
+                <label for="confirmpassword">Confirmer mot de passe :</label>
+                <input type="password" id="confirmpassword" name="confirmpassword"><br><br>
+
+                <button class="annuler" type="reset">Annuler</button>
+                <button class="enregistrer" type="submit">Enregistrer</button>
+            </form>
+        </main>
+    </div>
+</main>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<th:block th:insert="~{fragments/fragmentforms :: jsforms}"></th:block>
+
+</body>
+</html>
+
+

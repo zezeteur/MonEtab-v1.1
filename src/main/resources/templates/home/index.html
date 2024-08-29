@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/fragment :: head}"></head>
+
+<body>
+
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a th:href="@{home}" class="logo d-flex align-items-center">
+        <img th:src="@{img/logo.png}" alt="Logo Mon Etab">
+        <span class="d-none d-lg-block">  Mon Etab</span>
+      </a>
+      <i class="toggle-sidebar-btn"><span class="material-icons">menu</span></i>
+    </div>
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" >
+              <span class="d-none d-md-block ps-2">ANGE DIBI</span>
+          </a>
+
+      <div class="toggle-container">
+          <input type="checkbox" id="toggle-switch" class="toggle-switch">
+          <label for="toggle-switch" class="toggle-label">
+              <span class="toggle-icon sun">☀️</span>
+              <span class="toggle-icon moon">🌙</span>
+          </label>
+      </div>
+
+
+  </header>
+
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " >
+            <span class="material-icons">dashboard</span>
+
+          <span>Tableau de bord</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" th:href="@{students}">
+          <i class="fas fa-user-graduate"></i><span> Elèves</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" th:href="@{teachers}">
+          <i class="fas fa-chalkboard-teacher"></i><span>Professeurs</span>
+        </a>
+      </li>
+
+        <li class="nav-item">
+        <a class="nav-link collapsed" th:href="@{users}">
+          <i class="fas fa-users"></i><span>Utilisateurs</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" th:href="@{reports}">
+          <i class="fas fa-file-alt"></i><span>Rapports</span>
+        </a>
+      </li>
+
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+ <li class="nav-item">
+     <div class="logout">
+        <a class="nav-link " th:href="@{/}">
+          <span class="material-icons">logout</span>
+          <span>Déconnexion</span>
+        </a>
+         </div>
+      </li>
+
+    </ul>
+
+  </aside>
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Tableau de bord</h1>
+
+    </div>
+
+    <section class="section dashboard">
+
+        <div class="carddashboard">
+            <div class="card">
+                <div class="cardeleve">
+                                <h4 class="card-title">Nombre d'élèves </h4>
+
+                                <div class="">
+                        <pre>
+
+
+                                       <h1>                       <span th:text="${students.size()}"></span></h1>
+
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="cardeleve">
+                    <h4 class="card-title">Nombre de professeurs </h4>
+                    <div class="">
+                        <pre>
+
+
+                                       <h1>                       <span th:text="${teachers.size()}"></span></h1>
+
+                        </pre>
+            </div>
+            </div>
+        </div>
+
+      </div>
+    </section>
+
+      <section class="section dashboard">
+          <div class="carddashboard">
+              <div class="card">
+                  <div class="cardeleve">
+                      <h4 class="card-title">Nombre d'utilisateurs </h4>
+                      <div class="">
+                        <pre>
+
+
+                                       <h1>                       <span th:text="${users.size()}"></span></h1>
+
+                        </pre>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="card">
+                  <div class="cardeleve">
+                      <h4 class="card-title">Nombre d'élèves par genre</h4>
+                      <div id="trafficChart" style="min-height: 300px;" class="echart"></div>
+
+                      <script>
+                          document.addEventListener("DOMContentLoaded", () => {
+                            echarts.init(document.querySelector("#trafficChart")).setOption({
+                              tooltip: {
+                                trigger: 'item'
+                              },
+                              legend: {
+                                top: '5%',
+                                left: 'center'
+                              },
+                              series: [{
+                                name: 'Elèves',
+                                type: 'pie',
+                                radius: ['40%', '70%'],
+                                avoidLabelOverlap: false,
+                                label: {
+                                  show: false,
+                                  position: 'center'
+                                },
+                                emphasis: {
+                                  label: {
+                                    show: true,
+                                    fontSize: '18',
+                                    fontWeight: 'bold'
+                                  }
+                                },
+                                labelLine: {
+                                  show: false
+                                },
+                                data: [{
+
+                                    value: 9,
+                                    name: 'HOMMES'
+
+                                  },
+
+                                  {
+                                    value: 6,
+                                    name: 'FEMMES'
+                                  },
+
+                                  {
+                                    value: 1,
+                                    name: 'NON PRÉCISÉS'
+                                  },
+
+                                ]
+                              }]
+                            });
+                          });
+                      </script>
+                  </div>
+              </div>
+              </div>
+          </div>
+      </section>
+  </main>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <th:block th:insert="~{fragments/fragment :: js}"></th:block>
+
+  <script th:src="@{vendor/apexcharts/apexcharts.min.js}"></script>
+  <script th:src="@{vendor/chart.js/chart.umd.js}"></script>
+  <script th:src="@{vendor/echarts/echarts.min.js}"></script>
+
+</body>
+</html>
+
+

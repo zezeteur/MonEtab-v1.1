@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{fragments/fragment :: head}">
+
+</head>
+
+<body>
+<title>Elèves - Mon Etab</title>
+
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a th:href="@{home}" class="logo d-flex align-items-center">
+            <img th:src="@{img/logo.png}" alt="Logo Mon Etab">
+            <span class="d-none d-lg-block">  Mon Etab</span>
+        </a>
+        <i class="toggle-sidebar-btn"><span class="material-icons">menu</span></i>
+    </div>
+
+    <a class="nav-link nav-profile d-flex align-items-center pe-0" >
+        <span class="d-none d-md-block ps-2">ANGE DIBI</span>
+    </a>
+
+    <div class="toggle-container">
+        <input type="checkbox" id="toggle-switch" class="toggle-switch">
+        <label for="toggle-switch" class="toggle-label">
+            <span class="toggle-icon sun">☀️</span>
+            <span class="toggle-icon moon">🌙</span>
+        </label>
+    </div>
+
+</header>
+
+<div id="custom-notification" class="hidden">
+    <p id="notification-message"></p>
+    <span class="close-btn" onclick="closeNotification()">×</span>
+</div>
+
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{home}">
+                <span class="material-icons">dashboard</span>
+                <span>Tableau de bord </span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " >
+                <i class="fas fa-user-graduate "></i>
+                <span>Elèves</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{teachers}">
+                <i class="fas fa-chalkboard-teacher"></i><span>Professeurs</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{users}" >
+                <i class="fas fa-users"></i><span>Utilisateurs</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed"  th:href="@{reports}" >
+                <i class="fas fa-file-alt"></i><span>Rapports</span>
+            </a>
+        </li>
+
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+        <li class="nav-item">
+
+        </li>
+
+        <li class="nav-item">
+            <div class="logout">
+                <a class="nav-link " th:href="@{/}">
+                    <span class="material-icons">logout</span>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </li>
+    </ul>
+</aside>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Élèves (<span th:text="${students.size()}"></span>)</h1>
+    </div>
+
+    <div class="pagetitle">
+        <nav>
+            <ol class="breadcrumb">
+
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{home}"><i class="bi bi-house-door"></i></a></li>
+                        <li class="breadcrumb-item active">Élèves</li>
+                    </ol>
+                </nav>
+
+            </ol>
+        </nav>
+    </div>
+
+
+
+    <div class="containertable">
+
+        <main>
+
+            <button  class="boutonajout"><span><a th:href="@{/students/add}"> + Nouvel élève</a></span></button>
+
+            <table>
+                <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénoms</th>
+                    <th>Matricule</th>
+                    <th>Genre</th>
+                    <th>Classe</th>
+                    <th>Date de naissance</th>
+                    <th>Téléphone</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="student:${students}">
+                    <td th:text="${student.getNom}">KONE</td>
+                    <td th:text="${student.getPrenom}">Sali</td>
+                    <td th:text="${student.getMatricule}">F</td>
+                    <td th:text="${student.getGenre}">2nd</td>
+                    <td th:text="${student.getClasse}">GDJ7GDGD</td>
+                    <td th:text="${student.getDateNaissance}">22</td>
+                    <td th:text="${student.getTelephone}">0123456789</td>
+                    <td th:text="${student.getEmail}">Abidjan</td>
+
+                    <td>
+                        <button  class="boutonaction1">
+                            <span>
+                                <a th:href="@{/students/{id}(id=${student.id})}">Modifier</a>
+                            </span>
+                        </button>
+
+                        <button onclick="openModalDelete(this.dataset.id)" th:attr="data-id=${student.id}" class="boutonaction2">
+                             <span>
+                            Supprimer
+                        </span>
+                        </button>
+                    </td>
+
+                    <div id="closeModal" class="modal">
+
+                        <div class="imodal">a</div>
+                        <div class="modal-1">
+                            <strong>ATTENTION !</strong>
+                            <iframe class="trash" src="https://lottie.host/embed/e5bef1fb-e325-47a8-85d3-bddc5f8c351a/nADN8RQQle.json"></iframe>
+                            <label class="text">
+                                Voulez-vous Supprimer cet élève ?
+                            </label>
+                            <div class="btn">
+                                <button type="submit3" onclick="closeModal()" id="btnClose" class="btnNo">Non</button>
+                                <button type="cancel2" onclick="deleteStudent(this.dataset.id)" th:attr="data-id=${student.id}" id="btnYes" class="btnYes">Oui</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+        </main>
+    </div>
+
+</main>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<th:block th:insert="~{fragments/fragment :: js}"></th:block>
+
+
+</body>
+
+</html>
+
+
+
